@@ -1,4 +1,4 @@
-package main
+package day1
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func main() {
+func day1task2() {
 
 	var str string = `two1nine
 	eightwothree
