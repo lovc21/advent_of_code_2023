@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func day1task2() {
+func Day1task2() {
 
 	var str string = `two1nine
 	eightwothree
