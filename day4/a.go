@@ -35,7 +35,7 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
 				}
 			}
 		}
-
+		
 		count := len(matches)
 		if count > 0 {
 			toltalsum = toltalsum + int(math.Pow(2, float64(count-1)))
