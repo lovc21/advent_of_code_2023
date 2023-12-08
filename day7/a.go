@@ -8,9 +8,8 @@ import (
 )
 
 type Bid struct {
-	Value    int
-	Strength int
-	Hand     string
+	Value int
+	Hand  string
 }
 
 func Day7task1() {
@@ -33,10 +32,25 @@ func Day7task1() {
 
 	//cardsarr := []string{"A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"}
 
+	cardValues := map[string]int{
+		"A": 14,
+		"K": 13,
+		"Q": 12,
+		"J": 11,
+		"T": 10,
+		"9": 9,
+		"8": 8,
+		"7": 7,
+		"6": 6,
+		"5": 5,
+		"4": 4,
+		"3": 3,
+		"2": 2,
+	}
+
 	lines := strings.Split(input, "\n")
 
 	handMultiplier := len(lines)
-	fmt.Println(handMultiplier)
 	fiveOfAKindBids := []Bid{}
 	fourOfAKindBids := []Bid{}
 	fullHouseBids := []Bid{}
@@ -56,119 +70,70 @@ func Day7task1() {
 
 		if isFiveOfAKind(cardCount) {
 			bidValue, _ := strconv.Atoi(bidandhand[1])
-			bidStrength := handStrength(hand)
-			fiveOfAKindBids = append(fiveOfAKindBids, Bid{Value: bidValue, Strength: bidStrength, Hand: hand})
+			fiveOfAKindBids = append(fiveOfAKindBids, Bid{Value: bidValue, Hand: hand})
 		} else if isFourOfAKind(cardCount) {
 			bidValue, _ := strconv.Atoi(bidandhand[1])
-			bidStrength := handStrength(hand)
-			fourOfAKindBids = append(fourOfAKindBids, Bid{Value: bidValue, Strength: bidStrength, Hand: hand})
+			fourOfAKindBids = append(fourOfAKindBids, Bid{Value: bidValue, Hand: hand})
 		} else if isFullHouse(cardCount) {
 			bidValue, _ := strconv.Atoi(bidandhand[1])
-			bidStrength := handStrength(hand)
-			fullHouseBids = append(fullHouseBids, Bid{Value: bidValue, Strength: bidStrength, Hand: hand})
+			fullHouseBids = append(fullHouseBids, Bid{Value: bidValue, Hand: hand})
 		} else if isThreeOfAKind(cardCount) {
 			bidValue, _ := strconv.Atoi(bidandhand[1])
-			bidStrength := handStrength(hand)
-			threeOfAKindBids = append(threeOfAKindBids, Bid{Value: bidValue, Strength: bidStrength, Hand: hand})
+			threeOfAKindBids = append(threeOfAKindBids, Bid{Value: bidValue, Hand: hand})
 		} else if isTwoPair(cardCount) {
 			bidValue, _ := strconv.Atoi(bidandhand[1])
-			bidStrength := handStrength(hand)
-			twoPairBids = append(twoPairBids, Bid{Value: bidValue, Strength: bidStrength, Hand: hand})
+			twoPairBids = append(twoPairBids, Bid{Value: bidValue, Hand: hand})
 		} else if isOnePair(cardCount) {
 			bidValue, _ := strconv.Atoi(bidandhand[1])
-			bidStrength := handStrength(hand)
-			onePairBids = append(onePairBids, Bid{Value: bidValue, Strength: bidStrength, Hand: hand})
+			onePairBids = append(onePairBids, Bid{Value: bidValue, Hand: hand})
 		} else {
 			bidValue, _ := strconv.Atoi(bidandhand[1])
-			bidStrength := handStrength(hand)
-			highCardBids = append(highCardBids, Bid{Value: bidValue, Strength: bidStrength, Hand: hand})
+			highCardBids = append(highCardBids, Bid{Value: bidValue, Hand: hand})
 		}
 	}
 
-	// sort bids by strength for fiveOfAKindBids
+	// sort the bids
+	//funcion that sorts the bids by this So, 33332 and 2AAAA are both four of a kind hands, but 33332 is stronger because its first card is stronger. Similarly, 77888 and 77788 are both a full house, but 77888 is stronger because its third card is stronger (and both hands have the same first and second card).
+
 	sort.Slice(fiveOfAKindBids, func(i, j int) bool {
-		return fiveOfAKindBids[i].Strength > fiveOfAKindBids[j].Strength
+		return cardValues[string(fiveOfAKindBids[i].Hand[0])] > cardValues[string(fiveOfAKindBids[j].Hand[0])]
 	})
-	bidssorted = append(bidssorted, fiveOfAKindBids...)
-
-	// sort bids by strength for fourOfAKindBids
 	sort.Slice(fourOfAKindBids, func(i, j int) bool {
-		return fourOfAKindBids[i].Strength > fourOfAKindBids[j].Strength
+		return cardValues[string(fourOfAKindBids[i].Hand[0])] > cardValues[string(fourOfAKindBids[j].Hand[0])]
 	})
-	bidssorted = append(bidssorted, fourOfAKindBids...)
-
-	// sort bids by strength for fullHouseBids
 	sort.Slice(fullHouseBids, func(i, j int) bool {
-		return fullHouseBids[i].Strength > fullHouseBids[j].Strength
+		return cardValues[string(fullHouseBids[i].Hand[2])] > cardValues[string(fullHouseBids[j].Hand[2])]
 	})
-	bidssorted = append(bidssorted, fullHouseBids...)
-
-	// sort bids by strength for threeOfAKindBids
 	sort.Slice(threeOfAKindBids, func(i, j int) bool {
-		return threeOfAKindBids[i].Strength > threeOfAKindBids[j].Strength
+		return cardValues[string(threeOfAKindBids[i].Hand[2])] > cardValues[string(threeOfAKindBids[j].Hand[2])]
 	})
-	bidssorted = append(bidssorted, threeOfAKindBids...)
-
-	// sort bids by strength for twoPairBids
 	sort.Slice(twoPairBids, func(i, j int) bool {
-		return twoPairBids[i].Strength > twoPairBids[j].Strength
+		return cardValues[string(twoPairBids[i].Hand[3])] > cardValues[string(twoPairBids[j].Hand[3])]
 	})
-
-	bidssorted = append(bidssorted, twoPairBids...)
-
-	// sort bids by strength for onePairBids
 	sort.Slice(onePairBids, func(i, j int) bool {
-		return onePairBids[i].Strength > onePairBids[j].Strength
+		return cardValues[string(onePairBids[i].Hand[2])] > cardValues[string(onePairBids[j].Hand[2])]
 	})
-	bidssorted = append(bidssorted, onePairBids...)
-
-	// sort bids by strength for highCardBids
 	sort.Slice(highCardBids, func(i, j int) bool {
-		return highCardBids[i].Strength > highCardBids[j].Strength
+		return cardValues[string(highCardBids[i].Hand[4])] > cardValues[string(highCardBids[j].Hand[4])]
 	})
+
+	// add the bids to the bidssorted slice
+	bidssorted = append(bidssorted, fiveOfAKindBids...)
+	bidssorted = append(bidssorted, fourOfAKindBids...)
+	bidssorted = append(bidssorted, fullHouseBids...)
+	bidssorted = append(bidssorted, threeOfAKindBids...)
+	bidssorted = append(bidssorted, twoPairBids...)
+	bidssorted = append(bidssorted, onePairBids...)
 	bidssorted = append(bidssorted, highCardBids...)
 
+	fmt.Println(bidssorted)
+	// add up the total value of the bidskind
+	totalValue := 0
 	for i, bid := range bidssorted {
-		fmt.Printf("index %s, Hand: %s, Strength: %d, Value: %d\n", i, bid.Hand, bid.Strength, bid.Value)
+		totalValue += bid.Value * (handMultiplier - i)
 	}
+	fmt.Println(totalValue)
 
-	//fmt.Println(bidssorted)
-	//fmt.Println("Hello, playground day7 is working ")
-
-}
-
-func handStrength(hand string) int {
-	cardValues := map[string]int{
-		"A": 14,
-		"K": 13,
-		"Q": 12,
-		"J": 11,
-		"T": 10,
-		"9": 9,
-		"8": 8,
-		"7": 7,
-		"6": 6,
-		"5": 5,
-		"4": 4,
-		"3": 3,
-		"2": 2,
-	}
-
-	cards := make([]string, 0, len(hand))
-	for _, card := range hand {
-		cards = append(cards, string(card))
-	}
-
-	// Sort the cards by their values (highest to lowest)
-	sort.Slice(cards, func(i, j int) bool {
-		return cardValues[cards[i]] > cardValues[cards[j]]
-	})
-
-	strength := 0
-	for i, card := range cards {
-		strength += cardValues[card] * (len(cards) - i)
-	}
-	return strength
 }
 
 func isFiveOfAKind(cardCount map[string]int) bool {
