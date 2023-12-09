@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	day9.Day9task1()
+	day9.Day9task2()
 
 	fmt.Println("Hello, playground")
 }
