@@ -27,6 +27,7 @@ func Day10task1() {
 	for i, line := range lines {
 		lines[i] = strings.TrimSpace(line)
 	}
+
 	grid = make([][]rune, len(lines)-2)
 	for y, line := range lines[1 : len(lines)-1] {
 		grid[y] = []rune(line)
