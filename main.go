@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/lovc21/advent_of_code_2024/day9"
+	"github.com/lovc21/advent_of_code_2024/day10"
 )
 
 func main() {
 
-	day9.Day9task2()
+	day10.Day10task1()
 
 	fmt.Println("Hello, playground")
 }

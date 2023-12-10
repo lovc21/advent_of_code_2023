@@ -20,7 +20,7 @@ func Day8task1() {
 	instructions := strings.TrimSpace(strings.Split(str, "\n")[0])
 
 	fmt.Println("Processing puzzle with instructions: ", instructions)
-	processInstructions(instructions, "AAA", puzzleMap, 0, 0, make(map[string]bool))
+	recursionTask1(instructions, "AAA", puzzleMap, 0, 0, make(map[string]bool))
 
 }
 
@@ -44,7 +44,7 @@ func parsePuzzle(str string) map[string][2]string {
 	return puzzleMap
 }
 
-func processInstructions(instructions, current string, puzzleMap map[string][2]string, count, instructionIndex int, history map[string]bool) bool {
+func recursionTask1(instructions, current string, puzzleMap map[string][2]string, count, instructionIndex int, history map[string]bool) bool {
 	fmt.Println("Processing instructions:", instructions, "from", current)
 
 	// Base case: stop recursion when "ZZZ" is found
@@ -85,5 +85,5 @@ func processInstructions(instructions, current string, puzzleMap map[string][2]s
 	fmt.Printf("Moving %c from %s to %s\n", instruction, current, nextKey)
 
 	// Process the next instruction
-	return processInstructions(instructions, nextKey, puzzleMap, count+1, (instructionIndex+1)%len(instructions), history)
+	return recursionTask1(instructions, nextKey, puzzleMap, count+1, (instructionIndex+1)%len(instructions), history)
 }
